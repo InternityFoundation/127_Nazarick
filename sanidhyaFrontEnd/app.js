@@ -16,7 +16,7 @@ import {
   StatusBar,
 } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator, withNavigationFocus } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import Login from './app/auth/login';
 import Missing from './app/post/missing';
@@ -50,7 +50,7 @@ const rootStack = createBottomTabNavigator({
         },
   },
   Camera: { 
-    screen: Camera,
+    screen: withNavigationFocus(Camera),
     navigationOptions: {
           tabBarLabel: 'Camera',
           tabBarIcon: ({tintColor, activeTintColor}) => (

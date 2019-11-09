@@ -68,18 +68,19 @@ class Register extends React.Component {
     }
     async handleSignup() {
         console.warn('signup');
-        signupData = {
+        const signupData = {
             name: this.state.name,
             email: this.state.email,
             password: this.state.password,
             password2: this.state.password2,
-            lastlocation: this.state.location,
+            lastlocation: this.state.lastlocation,
             deviceid: await AsyncStorage.getItem('deviceId'),
             authorisation: this.state.authorisation == 'Police'? 0 : 1
         }
 
         console.log(signupData)
-        // axios.post('http://192.168.43.14:5000/api/users/login', loginDetail)
+        this.props.navigation.navigate('Login')
+        // axios.post('http://192.168.43.14:5000/api/users/register', signupData)
         //     .then(res => {
         //         console.log(res.data.token)
         //         this.setState({ serverData: res.data })

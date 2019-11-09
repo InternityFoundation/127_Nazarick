@@ -7,7 +7,7 @@ const passport = require('passport');
 
 //body parser
 // app.use(express.bodyParser({limit: '50mb'}));
-
+// app.use(express.static("public"))
 app.use(express.urlencoded({ extended: false,limit: '50mb' }));
 app.use(express.json({limit: '50mb'}));
 //mongodb connect
@@ -29,13 +29,13 @@ app.use("/api/users", users);
 app.use("/api/children", children);
 app.get('/', (req, res) => res.json({ msg: 'This is test route ' }));
 
-
+app.use(express.static("public"));
 //ml moddleware
 // app.engine('html', require('ejs').renderFile);
 // app.set('view engine', 'html');
 // app.use(express.static("public"));
 
-const port = process.env.PORT || 5500;
+const port = process.env.PORT || 8500;
 
 app.listen(port, (err) => {
     if (err) {
