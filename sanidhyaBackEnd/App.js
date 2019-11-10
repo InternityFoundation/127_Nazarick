@@ -2,9 +2,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const passport = require('passport');
+const bodyParser = require('body-parser')
 
-
-
+// app.use(bodyParser.json())
+// app.use(bodyParser.urlencoded({extended: false}))
 //body parser
 // app.use(express.bodyParser({limit: '50mb'}));
 // app.use(express.static("public"))
@@ -29,7 +30,7 @@ app.use("/api/users", users);
 app.use("/api/children", children);
 app.get('/', (req, res) => res.json({ msg: 'This is test route ' }));
 
-app.use(express.static("public"));
+app.use(express.static("routes"));
 //ml moddleware
 // app.engine('html', require('ejs').renderFile);
 // app.set('view engine', 'html');

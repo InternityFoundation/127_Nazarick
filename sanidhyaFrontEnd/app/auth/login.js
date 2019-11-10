@@ -48,10 +48,13 @@ class Login extends React.Component {
         AsyncStorage.setItem('deviceId', device.userId);
         //   this.setid(device.userId)
         //this.setState({deviceid: device.userId, isSetId: true})
-        console.log('Device info: ', device);
+        // console.log('Device info: ', device);
       }
-    setToken = async (token) => {
+    setToken = async (token,id, auth) => {
+        // console.log(typeof id, "asdf" )
         await AsyncStorage.setItem('token', token);
+        await AsyncStorage.setItem('userid', id);
+        await AsyncStorage.setItem('authstatus',auth )
     }
      checkLogin = async () => {
         
@@ -60,20 +63,20 @@ class Login extends React.Component {
             password: this.state.password,
             deviceid: await AsyncStorage.getItem('deviceId')
         }
-        if(loginDetail.email == 'piyush.bhargav70@gmail.com' && loginDetail.password == '123456') {
-            this.setToken('abc');
-                this.props.navigation.navigate('Missing');
-        }
-        // axios.post('http://192.168.43.14:5000/api/users/login', loginDetail)
-        //     .then(res => {
-        //         console.log(res.data.token)
-        //         this.setState({ serverData: res.data })
-        //         this.setToken(res.data.token);
+        // if(loginDetail.email == 'piyush.bhargav70@gmail.com' && loginDetail.password == '123456') {
+        //     this.setToken('abc');
         //         this.props.navigation.navigate('Missing');
-        //     })
-        //     .catch(err => {
-        //         this.setState({ errors: errors.response.data })
-        //     })
+        // }
+        axios.post('http://192.168.43.209:8500/api/users/login', loginDetail)
+            .then(res => {
+                console.log(res.data)
+                this.setState({ serverData: res.data })
+                this.setToken(res.data.token,res.data.user._id.toString(), res.data.user.authorisation.toString());
+                this.props.navigation.navigate('Missing');
+            })
+            .catch(err => {
+                this.setState({ errors: errors.response.data })
+            })
 
     }
     signup() {

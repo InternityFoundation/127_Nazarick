@@ -22,7 +22,7 @@ var postSchema = mongoose.Schema({
         default: Date.now,
     },
     addedby: {
-        type: Number,
+        type: String,
         ref: 'user',
         required: true
     },

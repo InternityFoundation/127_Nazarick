@@ -96,6 +96,9 @@ router.post('/login', (req, res) => {
                         //res.json({msg: "success"});
                         //user matched
                         //create jwt payload
+                        console.log(req.body.deviceid)
+                        User.updateOne({email: req.body.email}, {$set: {"deviceid":req.body.deviceid}})
+                        .then(console.log("updated"))
                         const payload = {
                             id: user.id,
                             name: user.name
@@ -106,9 +109,10 @@ router.post('/login', (req, res) => {
                             res.json({
                                 success: true,
                                 token: "Bearer " + token,
+                                user: user
                             })
                         })
-                        User.update({email: req.body.email}, {$set: {"deviceid":req.body.deviceid}})
+
 
                     }
                     else {
@@ -120,12 +124,17 @@ router.post('/login', (req, res) => {
 });
 
 router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
+    const email = req.user.email
+    User.findOne({ email })
+    .then(user => {
     res.json({
         // id: req.user.id,
         name: req.user.name,
         email: req.user.email,
-        contact: req.user.contact
+        contact: req.user.contact,
+        authorisation: user.authorisation
     })
+})
 })
 
 module.exports = router;

@@ -3,6 +3,7 @@ import { View, Text, TextInput, Platform, PermissionsAndroid, Button, Picker } f
 import styles from '../styles'
 import Geolocation from 'react-native-geolocation-service';
 import AsyncStorage from '@react-native-community/async-storage';
+import axios from 'axios'
 
 class Register extends React.Component {
     constructor() {
@@ -74,22 +75,23 @@ class Register extends React.Component {
             password: this.state.password,
             password2: this.state.password2,
             lastlocation: this.state.lastlocation,
+            contact: this.state.contact,
             deviceid: await AsyncStorage.getItem('deviceId'),
             authorisation: this.state.authorisation == 'Police'? 0 : 1
         }
 
-        console.log(signupData)
-        this.props.navigation.navigate('Login')
-        // axios.post('http://192.168.43.14:5000/api/users/register', signupData)
-        //     .then(res => {
-        //         console.log(res.data.token)
-        //         this.setState({ serverData: res.data })
-        //         this.setToken(res.data.token);
-        //         this.props.navigation.navigate('Missing');
-        //     })
-        //     .catch(err => {
-        //         this.setState({ errors: errors.response.data })
-        //     })
+        // console.log(signupData)
+        // this.props.navigation.navigate('Login')
+        axios.post('http://192.168.43.209:8500/api/users/register', signupData)
+            .then(res => {
+                console.log(res.data.user)
+                // this.setState({ serverData: res.data })
+                // this.setToken(res.data.token);
+                this.props.navigation.navigate('Login');
+            })
+            .catch(err => {
+                this.setState({ errors: errors.response.data })
+            })
     }
     render() {
         return (
@@ -108,8 +110,8 @@ class Register extends React.Component {
                     onValueChange={(itemValue, itemIndex) =>
                         this.setState({ language: itemValue })
                     }>
-                    <Picker.Item label="Police" value="java" />
-                    <Picker.Item label="Public" value="js" />
+                    <Picker.Item label="Police" value="Police" />
+                    <Picker.Item label="Public" value="Public" />
                 </Picker>
                 <Button title="SignUP" style={{}} onPress={this.handleSignup} />
             </View>
